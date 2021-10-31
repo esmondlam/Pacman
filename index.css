@@ -38,3 +38,26 @@ body {
     border: none;
 }
 
+.blinky {
+    background-color: red;
+    border: none;
+}
+
+.pinky {
+    background-color: pink;
+    border: none;
+}
+
+.inky {
+    background-color: aqua;
+    border: none;
+}
+
+.clyde {
+    background-color: orange;
+    border: none;    
+}
+
+.scared-ghost {
+    background-color: aquamarine;
+}

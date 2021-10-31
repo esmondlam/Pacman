@@ -144,7 +144,7 @@ function powerPelletEaten() {
         }   
 }
 
-function unScareGhosts  () {
+function unScareGhosts() {
     ghosts.forEach(ghost => ghost.isScared = false)
 }
 
