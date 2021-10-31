@@ -26,7 +26,7 @@ const layout = [
     1,1,1,1,1,1,0,1,1,4,1,1,1,2,2,1,1,1,4,1,1,0,1,1,1,1,1,1,
     1,1,1,1,1,1,0,1,1,4,1,2,2,2,2,2,2,1,4,1,1,0,1,1,1,1,1,1,
     4,4,4,4,4,4,0,0,0,4,1,2,2,2,2,2,2,1,4,0,0,0,4,4,4,4,4,4,
-    1,1,1,1,1,1,0,1,1,4,1,2,2,2,2,2,2,1,4,1,1,0,1,1,1,1,1,1,
+    1,1,1,1,1,1,0,1,1,4,2,2,2,2,2,2,2,2,4,1,1,0,1,1,1,1,1,1,
     1,1,1,1,1,1,0,1,1,4,1,1,1,1,1,1,1,1,4,1,1,0,1,1,1,1,1,1,
     1,1,1,1,1,1,0,1,1,4,1,1,1,1,1,1,1,1,4,1,1,0,1,1,1,1,1,1,
     1,0,0,0,0,0,0,0,0,4,4,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,1,
@@ -198,10 +198,38 @@ function moveGhost(ghost) {
             } else direction = directions[Math.floor(Math.random() * directions.length)]
 
             if (ghost.isScared) {
-                squares[ghost.currentIndex].classList.add('scared-ghost')
+                squares[ghost.currentIndex].classList.add('scared-ghost');
             }    
+
+            //if the ghost is current scared AND pacman is on it
+            if (
+                ghost.isScared && 
+                squares[ghost.currentIndex].classList.contains('pacman')
+                ) {
+                squares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost')
+                //remove classnames - ghost.className, 'ghost', 'scared-ghost'
+                ghost.currentIndex = ghost.startIndex;
+                // change ghosts currentIndex back to its startIndex
+                score += 100;
+                scoreDisplay.textContent = score;
+                //add a score of 100 
+                squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+                //re-add classnames of ghost.className and 'ghost' to the ghosts new postion
+                }
     }, ghost.speed )
     
         //if the ghost is currently scared
+    checkForGameOver()
 }
 
+//check for game over
+function checkForGameOver() {
+    if (
+        squares[pacmanCurrentIndex].classList.contains('ghost') &&
+        !squares[pacmanCurrentIndex].classList.contains('scared-ghost')
+        ) {
+            ghosts.forEach(ghost => clearInterval(ghost.timerId));
+            document.removeEventListener('keyup', control);
+            scoreDisplay.textContent = 'You Lose';
+        }
+}
